@@ -53,6 +53,7 @@ sonar {
 		property "sonar.projectKey", "CI_CD"
 		property "sonar.organization", "rohithsorim-oss"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacocoTestReport.xml"
 	}
 }
 
