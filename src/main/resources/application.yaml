@@ -1,3 +1,6 @@
 spring:
   application:
     name: cicdDemo
+  jpa:
+    hibernate:
+      ddl-auto: update
