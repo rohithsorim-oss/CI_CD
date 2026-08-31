@@ -10,6 +10,8 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class CicdDemoApplication {
 
+	private static String h = "";
+
 	public static void main(String[] args) {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
 		SpringApplication.run(CicdDemoApplication.class, args);
