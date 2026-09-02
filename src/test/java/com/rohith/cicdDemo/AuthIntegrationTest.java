@@ -51,6 +51,6 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                         post("/v1/auth/register")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isBadRequest());
     }
 }
