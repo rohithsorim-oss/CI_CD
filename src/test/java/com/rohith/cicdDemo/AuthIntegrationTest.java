@@ -35,4 +35,22 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    void shouldThrowErrorOnRegisterUser() throws Exception {
+
+        UserRegisterRequest request =
+                new UserRegisterRequest(
+                        "Rohith S",
+                        "rohith@test.com",
+                        "909255259",
+                        "Maggi",
+                        "secret123");
+
+        mockMvc.perform(
+                        post("/v1/auth/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
+    }
 }
