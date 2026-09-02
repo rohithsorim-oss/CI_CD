@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"3c97f26baa5036f9bc414c8a42c7beef","name":"com.rohith.cicdDemo.AuthIntegrationTest","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
+{"total":1,"items":[{"uid":"3c97f26baa5036f9bc414c8a42c7beef","name":"com.rohith.cicdDemo.AuthIntegrationTest","statistic":{"failed":1,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":2}}]}

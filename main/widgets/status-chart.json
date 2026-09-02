@@ -1,1 +1,1 @@
-[{"uid":"92cdc37159f4d63a","name":"shouldRegisterUser()","time":{"start":1788331433484,"stop":1788331436149,"duration":2665},"status":"passed","severity":"normal"}]
+[{"uid":"e7508e43cba6c4f3","name":"shouldRegisterUser()","time":{"start":1788333924186,"stop":1788333925038,"duration":852},"status":"passed","severity":"normal"},{"uid":"d00418737886d56c","name":"shouldThrowErrorOnRegisterUser()","time":{"start":1788333923358,"stop":1788333924106,"duration":748},"status":"failed","severity":"normal"}]
