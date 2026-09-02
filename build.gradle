@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'jacoco'
+	id 'io.qameta.allure' version '2.12.0'
 	id 'org.springframework.boot' version '4.1.1'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.sonarqube' version '7.2.0.6526'
@@ -36,7 +37,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-
+	testImplementation 'io.qameta.allure:allure-junit5'
 	testImplementation platform('org.testcontainers:testcontainers-bom:1.21.3')
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
@@ -67,5 +68,18 @@ jacocoTestReport {
 	reports {
 		xml.required = true
 		html.required = true
+	}
+}
+allure {
+	version.set("2.29.0")
+
+	adapter {
+		aspectjWeaver.set(true)
+
+		frameworks {
+			junit5 {
+				enabled.set(true)
+			}
+		}
 	}
 }

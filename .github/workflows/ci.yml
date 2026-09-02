@@ -1,18 +1,21 @@
-name: Build and SonarCloud
+name: Build Sonar Allure
 
 on:
   push:
     branches:
       - '**'
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-
     steps:
+
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
@@ -27,9 +30,72 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build, Test and Analyze
+      - name: Get Branch Name
+        id: branch
+        run: |
+          echo "name=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+      #
+      # Load previous report history
+      #
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+        continue-on-error: true
+
+      - name: Restore Allure History
+        run: |
+          mkdir -p build/allure-results/history
+
+          if [ -d "gh-pages/${{ steps.branch.outputs.name }}/history" ]; then
+            cp -r \
+              gh-pages/${{ steps.branch.outputs.name }}/history/* \
+              build/allure-results/history/ \
+              || true
+          fi
+
+      #
+      # Build + Test + Coverage + Sonar
+      #
+      - name: Build Test Coverage Sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           chmod +x gradlew
           ./gradlew clean build jacocoTestReport sonar
+
+      #
+      # Generate Allure HTML
+      #
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: build/allure-results
+          allure_report: allure-report
+          gh_pages: gh-pages
+
+      #
+      # Publish branch specific report
+      #
+      - name: Prepare GitHub Pages Content
+        if: always()
+        run: |
+          mkdir -p site/${{ steps.branch.outputs.name }}
+
+          cp -r allure-report/* \
+             site/${{ steps.branch.outputs.name }}/
+
+      #
+      # Deploy
+      #
+      - name: Deploy Allure Report
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: site
+          keep_files: true
